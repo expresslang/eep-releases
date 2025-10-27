@@ -88,6 +88,19 @@ chmod +x eep-linux-x64
 ls -la eep-linux-x64
 ----
 
+=== ARM64 Docker containers (macOS)
+
+When running in ARM64 Docker containers on macOS (Apple Silicon), you will need
+x86_64 compatibility libraries since this is an x86-64 binary:
+
+[source,bash]
+----
+# On arm64/aarch64 systems (such as Docker on Apple Silicon)
+dpkg --add-architecture amd64
+apt-get update
+apt-get -y install binutils:amd64
+----
+
 === 32-bit compatibility
 
 On 64-bit systems, if you encounter architecture-related errors, you may need
