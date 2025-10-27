@@ -1,0 +1,85 @@
+= Eurostep EXPRESS Parser (EEP) - macOS binaries
+
+== Purpose
+
+This directory contains macOS binaries for the Eurostep EXPRESS Parser (EEP)
+version V1.4.45 from 2022.
+
+== Available binaries
+
+Two binaries are provided for different macOS versions:
+
+`eep_macos_10-11`:: Intel x86_64 executable for macOS 10.11 (El Capitan) and later
+`eep_macos_12`:: Intel x86_64 executable for macOS 12 (Monterey) and later
+
+NOTE: Both binaries are Intel (x86_64) executables. The difference is the
+minimum macOS version required. Use `eep_macos_10-11` for compatibility with
+older macOS versions, and `eep_macos_12` for systems running macOS 12 and
+later.
+
+== Installation
+
+=== macOS 10.11 and later (older systems)
+
+[source,bash]
+----
+# Make executable
+chmod +x eep_macos_10-11
+
+# Install to system path
+sudo mv eep_macos_10-11 /usr/local/bin/eep
+
+# Verify installation
+eep --help
+----
+
+=== macOS 12 and later (newer systems)
+
+[source,bash]
+----
+# Make executable
+chmod +x eep_macos_12
+
+# Install to system path
+sudo mv eep_macos_12 /usr/local/bin/eep
+
+# Verify installation
+eep --help
+----
+
+NOTE: On modern macOS versions, you may need to remove the quarantine
+attribute after downloading:
+
+[source,bash]
+----
+xattr -d com.apple.quarantine eep_macos_10-11
+# or
+xattr -d com.apple.quarantine eep_macos_12
+----
+
+== System requirements
+
+* Mac OSX 10.4.8 or later (Experimental development)
+* Intel x86_64 processor
+* For `eep_macos_10-11`: macOS 10.11 (El Capitan) minimum
+* For `eep_macos_12`: macOS 12 (Monterey) minimum
+
+== Which binary should I use?
+
+* If you have macOS 10.11 through 11.x: Use `eep_macos_10-11`
+* If you have macOS 12 or later: Either binary will work, but `eep_macos_12`
+  is recommended for newer systems
+
+== Running on Apple Silicon Macs
+
+Both binaries are Intel-only executables. For Apple Silicon Macs (M1, M2, M3),
+these binaries will run under Rosetta 2 translation.
+
+== License
+
+EEP is distributed as **Freeware** by Eurostep.
+
+== More information
+
+See the main repository README.adoc for complete documentation:
+https://github.com/expresslang/eep-releases

@@ -1,0 +1,387 @@
+= Eurostep EXPRESS Parser (Eep) releases
+:toc:
+:toclevels: 3
+
+== Purpose
+
+This repository provides the legacy releases of the Eurostep EXPRESS Parser
+("Eep"), a command-line tool for working with EXPRESS schemas.
+
+Eep enables EXPRESS models to be verified against either the published EXPRESS
+language (ISO 10303-11:2004) or the first edition (ISO 10303-11:1994).
+
+It can generate a "pretty printed" form of the verified EXPRESS, concatenation
+of EXPRESS schemas, and conversion of EXPRESS schemas to the ISO 10303-28 form
+of EXPRESS XML for use with XML-based tools.
+
+These binaries are archived versions of Eep that were originally distributed by
+Eurostep.
+
+The original download page has been archived at:
+
+https://web.archive.org/web/20120119142727/http://www.eurostep.com/global/solutions/download-software.aspx
+
+This repository serves to preserve and provide continued access to these tools
+for the EXPRESS language community.
+
+== Structure
+
+This repository contains precompiled binaries of Eep for multiple platforms:
+
+`windows/Eep.exe`:: Windows executable
+
+`linux/eep`:: Linux executable (x86_64)
+
+`macos/eep_macos_10-11`:: macOS executable for macOS 10.11 and later (x86_64)
+
+`macos/eep_macos_12`:: macOS executable for macOS 12 and later (x86_64)
+
+
+== Workflow architecture
+
+.Eep command-line workflow
+[source]
+----
+┌─────────────────────────────────────────────────────────────────┐
+│                        Input FILES                              │
+│                                                                 │
+│  - EXPRESS schema files (.exp, .express)                        │
+│  - EXPRESS models (ISO 10303-11 format)                         │
+└────────────────────────┬────────────────────────────────────────┘
+                         │
+                         │ Parse and validate
+                         ▼
+┌─────────────────────────────────────────────────────────────────┐
+│              Eurostep EXPRESS Parser (Eep)                      │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  Validation against:                                            │
+│  - ISO 10303-11:2004 (second edition)                           │
+│  - ISO 10303-11:1994 (first edition)                            │
+│                                                                 │
+│  Processing:                                                    │
+│  - Syntax validation                                            │
+│  - Semantic verification                                        │
+│  - Format conversion                                            │
+│                                                                 │
+└────────────────────────┬────────────────────────────────────────┘
+                         │
+                         │ Generate output
+                         ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                        Output FORMATS                           │
+│                                                                 │
+│  - Pretty-printed EXPRESS (human-readable)                      │
+│  - XML Standard form (machine-readable)                         │
+│  - Validation reports and error messages                        │
+└─────────────────────────────────────────────────────────────────┘
+----
+
+== Installation
+
+=== System requirements
+
+Minimum requirements as specified by Eurostep:
+
+* Windows 2000/XP/Vista, Windows Server 2003/2008
+* Linux with libc version 6
+* Mac OSX 10.4.8 or later (Experimental development)
+
+NOTE: These binaries are from 2008 and may require compatibility layers on
+modern operating systems. Testing on current systems is recommended.
+
+WARNING: The executable on Windows is called `Eep.exe` (capitalized), while on
+Linux and macOS it is called `eep` (all lowercase).
+
+=== Linux
+
+On x86 Linux systems, use the following commands to download and install:
+
+[source,bash]
+----
+# Download the binary
+wget https://github.com/expresslang/eep-releases/raw/main/linux/eep
+
+# Make executable and install
+chmod +x eep
+sudo mv eep /usr/local/bin/
+
+# Verify installation
+eep --help
+----
+
+On ARM Linux systems, the binary may not be compatible due to its x86
+architecture. You will need to install x86_64 compatibility libraries.
+
+For Debian/Ubuntu systems, use the following commands to install necessary
+libraries:
+
+[source,bash]
+----
+# On arm64/aarch64 systems (such as Docker on Apple Silicon), install x86_64
+# compatibility libraries.
+dpkg --add-architecture amd64
+apt-get update
+apt-get -y install binutils:amd64
+----
+
+
+=== macOS
+
+The repository provides two versions for different macOS releases:
+
+==== macOS 10.11 and compatible systems
+
+This binary is compatible with Intel-based Macs (`x86_64`) running macOS 10.11
+and later.
+
+[source,bash]
+----
+# Download the binary
+curl -L -o eep https://github.com/expresslang/eep-releases/raw/main/macos/eep_macos_10-11
+
+# Make executable and install
+chmod +x eep
+sudo mv eep /usr/local/bin/
+
+# Verify installation
+eep --help
+----
+
+Architecture of binary:
+
+[source,bash]
+----
+$ file ./macos/eep_macos_10-11
+./macos/eep_macos_10-11: Mach-O 64-bit executable x86_64
+----
+
+==== macOS 12 and later
+
+This binary is compatible with Intel-based Macs (`x86_64`) running macOS 12 and
+later.
+
+[source,bash]
+----
+# Download the binary
+curl -L -o eep https://github.com/expresslang/eep-releases/raw/main/macos/eep_macos_12
+
+# Make executable and install
+chmod +x eep
+sudo mv eep /usr/local/bin/
+
+# Verify installation
+eep --help
+----
+
+Architecture of binary:
+
+[source,bash]
+----
+$ file ./macos/eep_macos_12
+./macos/eep_macos_12: Mach-O 64-bit executable x86_64
+----
+
+=== Windows
+
+[source,powershell]
+----
+# Download Eep.exe from the repository
+# Place it in a directory included in your system PATH
+
+# Verify installation
+Eep.exe --help
+----
+
+Or download directly from:
+https://github.com/expresslang/eep-releases/raw/main/windows/Eep.exe
+
+Add the directory containing `Eep.exe` to your system PATH manually through
+System Properties > Environment Variables.
+
+
+[[express-parsing]]
+== EXPRESS parsing and validation
+
+=== General
+
+Eep validates EXPRESS models against the ISO 10303-11 standard, which defines
+the EXPRESS language used in STEP application protocols and other industrial
+data modeling applications.
+
+The parser can verify models against two editions of the standard:
+
+* ISO 10303-11:2004 (second edition) - the current standard
+* ISO 10303-11:1994 (first edition) - for legacy compatibility
+
+This dual-standard support ensures that both modern and historical EXPRESS
+schemas can be processed and validated correctly.
+
+.Help output
+[source,bash]
+----
+$ eep -h
+Eurostep EXPRESS Parser (Eep!) V1.4.45
+(C) Eurostep Limited 1999-2022
+
+Usage : eep [options] file
+options one or more of:
+        -2      EXPRESS edition 2 parsing
+        -t      EXPRESS edition 1 TC 2 parsing
+        -o      EXPRESS edition 1 TC 1 parsing
+        -i      Information messages on
+        -w      Warning messages on
+        -e      Evaluated set evaluation on
+        -p      POSC restrictions applied
+        -x      XML export
+        -X      XMI export
+        -f      Export parsed express file
+        -c      Comment parsing (only of use with -f, -x or -X)
+----
+
+.Basic usage
+[source,bash]
+----
+# Parse and validate an EXPRESS file
+eep schema.exp
+
+# Validate against specific ISO edition
+eep -t schema.exp  # First edition TC 2
+eep -2 schema.exp  # Second edition (default)
+----
+
+=== Validation capabilities
+
+Eep performs comprehensive validation including:
+
+* Syntax checking against EXPRESS grammar
+* Semantic analysis of entity definitions
+* Constraint verification
+* Reference validation
+* Type compatibility checking
+
+Any errors or warnings are reported with file locations and detailed
+descriptions to assist in correcting the schema.
+
+
+[[usage]]
+== Use cases
+
+=== General
+
+
+=== EXPRESS schema concatenation
+
+=== XML standard form (ISO 10303-28)
+
+
+.Generating XML output
+====
+[source,bash]
+----
+# Generate XML representation
+eep -x schema.exp > schema.xml
+----
+====
+
+The XML format follows the EXPRESS XML schema standard, ensuring compatibility
+with other tools in the EXPRESS ecosystem.
+
+
+[[legacy-preservation]]
+== Legacy preservation
+
+=== General
+
+This repository preserves the most recent public release of Eep V1.4.45 as
+provided to ISO/TC 184/SC 4 from 2022.
+
+The last public release archived by the Internet Archive is Eep V1.3.34 from
+October 24, 2008.
+
+While the tool is no longer actively developed, it remains valuable for:
+
+* Processing legacy EXPRESS schemas
+* Supporting older STEP application protocols
+* Maintaining compatibility with historical data
+* Educational and research purposes
+
+=== Historical context
+
+Eep was developed by Eurostep, a company specializing in PLM (Product Lifecycle
+Management) and STEP (Standard for the Exchange of Product model data)
+technologies. The tool was freely distributed as freeware to support the
+EXPRESS and STEP communities.
+
+While Eurostep's website has changed due to its acquisition by BAE Systems, the
+archived version at the Wayback Machine preserves this historical information.
+
+This original download page provided the original binaries for Eep.
+
+https://web.archive.org/web/20120119142727/http://www.eurostep.com/global/solutions/download-software.aspx
+
+Original file specifications:
+
+.Eep version 1.3.34 specifications
+[cols="1,3"]
+|===
+| Property | Value
+
+| Version
+| 1.3.34
+
+| Release date
+| 2008-10-24
+
+| File size
+| ~100 KB (platform-dependent)
+
+| License
+| Freeware
+
+| Last update
+| October 2008
+|===
+
+== Related resources
+
+=== EXPRESS language resources
+
+* https://github.com/expresslang[EXPRESS Language Organization]
+* https://github.com/expresslang/eengine-releases[Express Engine (eengine)]
+  - Modern open-source EXPRESS parser
+* ISO 10303-11 standard documentation
+
+=== STEP and PLM resources
+
+* https://www.steptools.com/[STEP Tools, Inc.]
+* CAx Implementor Forum
+* STEP Application Protocol specifications
+
+== Contributing
+
+This repository is primarily for preservation purposes. If you have:
+
+* Additional Eep versions or documentation
+* Bug fixes or compatibility patches
+* Usage examples or tutorials
+
+Please open an issue or pull request to contribute.
+
+== Acknowledgments
+
+* Eurostep for developing and distributing Eep as freeware
+* The Internet Archive for preserving the original download page
+* The EXPRESS and STEP communities for continued support
+
+== Copyright and license
+
+Copyright (C) 1999-2022 Eurostep Limited.
+
+Eep is distributed as **Freeware** by Eurostep.
+
+The binaries in this repository are provided as-is for preservation and
+continued use by the EXPRESS language community. No warranty is provided.
+
+For questions about commercial use or redistribution, refer to the original
+licensing terms from Eurostep or contact appropriate legal counsel.
