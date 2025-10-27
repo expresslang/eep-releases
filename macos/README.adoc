@@ -3,18 +3,18 @@
 == Purpose
 
 This directory contains macOS binaries for the Eurostep EXPRESS Parser (EEP)
-version V1.4.45 from 2022.
+version 1.4.45.
 
 == Available binaries
 
 Two binaries are provided for different macOS versions:
 
-`eep_macos_10-11`:: Intel x86_64 executable for macOS 10.11 (El Capitan) and later
-`eep_macos_12`:: Intel x86_64 executable for macOS 12 (Monterey) and later
+`eep-macos-10.11-x64`:: Intel x86_64 executable for macOS 10.11 (El Capitan) and later
+`eep-macos-12-x64`:: Intel x86_64 executable for macOS 12 (Monterey) and later
 
 NOTE: Both binaries are Intel (x86_64) executables. The difference is the
-minimum macOS version required. Use `eep_macos_10-11` for compatibility with
-older macOS versions, and `eep_macos_12` for systems running macOS 12 and
+minimum macOS version required. Use `eep-macos-10.11-x64` for compatibility with
+older macOS versions, and `eep-macos-12-x64` for systems running macOS 12 and
 later.
 
 == Installation
@@ -24,10 +24,10 @@ later.
 [source,bash]
 ----
 # Make executable
-chmod +x eep_macos_10-11
+chmod +x eep-macos-10.11-x64
 
 # Install to system path
-sudo mv eep_macos_10-11 /usr/local/bin/eep
+sudo mv eep-macos-10.11-x64 /usr/local/bin/eep
 
 # Verify installation
 eep --help
@@ -38,10 +38,10 @@ eep --help
 [source,bash]
 ----
 # Make executable
-chmod +x eep_macos_12
+chmod +x eep-macos-12-x64
 
 # Install to system path
-sudo mv eep_macos_12 /usr/local/bin/eep
+sudo mv eep-macos-12-x64 /usr/local/bin/eep
 
 # Verify installation
 eep --help
@@ -52,25 +52,28 @@ attribute after downloading:
 
 [source,bash]
 ----
-xattr -d com.apple.quarantine eep_macos_10-11
+xattr -d com.apple.quarantine eep-macos-10.11-x64
 # or
-xattr -d com.apple.quarantine eep_macos_12
+xattr -d com.apple.quarantine eep-macos-12-x64
 ----
 
 == System requirements
 
 * Mac OSX 10.4.8 or later (Experimental development)
 * Intel x86_64 processor
-* For `eep_macos_10-11`: macOS 10.11 (El Capitan) minimum
-* For `eep_macos_12`: macOS 12 (Monterey) minimum
+* For `eep-macos-10.11-x64`: macOS 10.11 (El Capitan) minimum
+* For `eep-macos-12-x64`: macOS 12 (Monterey) minimum
 
 == Which binary should I use?
 
-* If you have macOS 10.11 through 11.x: Use `eep_macos_10-11`
-* If you have macOS 12 or later: Either binary will work, but `eep_macos_12`
+* If you have macOS 10.11 through 11.x: Use `eep-macos-10.11-x64`
+* If you have macOS 12 or later: Either binary will work, but `eep-macos-12-x64`
   is recommended for newer systems
 
-== Running on Apple Silicon Macs
+== Notes
+
+macOS support was marked as "experimental" in the original release. While the
+binaries function, some features may have limitations on macOS platforms.
 
 Both binaries are Intel-only executables. For Apple Silicon Macs (M1, M2, M3),
 these binaries will run under Rosetta 2 translation.

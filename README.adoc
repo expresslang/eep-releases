@@ -28,13 +28,13 @@ for the EXPRESS language community.
 
 This repository contains precompiled binaries of Eep for multiple platforms:
 
-`windows/Eep.exe`:: Windows executable
+`windows/eep-windows-x64.exe`:: Windows executable (x86-64)
 
-`linux/eep`:: Linux executable (x86_64)
+`linux/eep-linux-x64`:: Linux executable (x86-64)
 
-`macos/eep_macos_10-11`:: macOS executable for macOS 10.11 and later (x86_64)
+`macos/eep-macos-10.11-x64`:: macOS executable for macOS 10.11 and later (x86-64)
 
-`macos/eep_macos_12`:: macOS executable for macOS 12 and later (x86_64)
+`macos/eep-macos-12-x64`:: macOS executable for macOS 12 and later (x86-64)
 
 
 == Workflow architecture
@@ -100,7 +100,7 @@ On x86 Linux systems, use the following commands to download and install:
 [source,bash]
 ----
 # Download the binary
-wget https://github.com/expresslang/eep-releases/raw/main/linux/eep
+wget https://github.com/expresslang/eep-releases/raw/main/linux/eep-linux-x64
 
 # Make executable and install
 chmod +x eep
@@ -138,7 +138,7 @@ and later.
 [source,bash]
 ----
 # Download the binary
-curl -L -o eep https://github.com/expresslang/eep-releases/raw/main/macos/eep_macos_10-11
+curl -L -o eep https://github.com/expresslang/eep-releases/raw/main/macos/eep-macos-10.11-x64
 
 # Make executable and install
 chmod +x eep
@@ -152,8 +152,8 @@ Architecture of binary:
 
 [source,bash]
 ----
-$ file ./macos/eep_macos_10-11
-./macos/eep_macos_10-11: Mach-O 64-bit executable x86_64
+$ file ./macos/eep-macos-10.11-x64
+./macos/eep-macos-10.11-x64: Mach-O 64-bit executable x86_64
 ----
 
 ==== macOS 12 and later
@@ -164,7 +164,7 @@ later.
 [source,bash]
 ----
 # Download the binary
-curl -L -o eep https://github.com/expresslang/eep-releases/raw/main/macos/eep_macos_12
+curl -L -o eep https://github.com/expresslang/eep-releases/raw/main/macos/eep-macos-12-x64
 
 # Make executable and install
 chmod +x eep
@@ -178,8 +178,8 @@ Architecture of binary:
 
 [source,bash]
 ----
-$ file ./macos/eep_macos_12
-./macos/eep_macos_12: Mach-O 64-bit executable x86_64
+$ file ./macos/eep-macos-12-x64
+./macos/eep-macos-12-x64: Mach-O 64-bit executable x86_64
 ----
 
 === Windows
@@ -194,7 +194,9 @@ Eep.exe --help
 ----
 
 Or download directly from:
-https://github.com/expresslang/eep-releases/raw/main/windows/Eep.exe
+https://github.com/expresslang/eep-releases/raw/main/windows/eep-windows-x64.exe
+
+NOTE: You may rename the downloaded file to `Eep.exe` if you prefer the traditional Windows naming convention.
 
 Add the directory containing `Eep.exe` to your system PATH manually through
 System Properties > Environment Variables.

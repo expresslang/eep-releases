@@ -1,0 +1,71 @@
+= Eurostep EXPRESS Parser (EEP) - Windows binaries
+
+== Purpose
+
+This directory contains the Windows binary for the Eurostep EXPRESS Parser
+(EEP) version 1.4.45.
+
+== Available binaries
+
+`eep-windows-x64.exe`:: Windows executable for x86-64 systems
+
+== Installation
+
+[source,powershell]
+----
+# Download eep-windows-x64.exe to a directory of your choice
+# Add the directory to your system PATH
+
+# Verify installation
+eep-windows-x64.exe --help
+----
+
+NOTE: You may rename the downloaded file to `Eep.exe` if you prefer the traditional Windows naming convention.
+
+=== Adding to system PATH
+
+. Right-click on "This PC" or "My Computer"
+. Select "Properties"
+. Click "Advanced system settings"
+. Click "Environment Variables"
+. Under "System variables", find and select "Path"
+. Click "Edit"
+. Click "New" and add the directory containing `eep-windows-x64.exe`
+. Click "OK" to save
+
+Alternatively, place `eep-windows-x64.exe` in an existing PATH directory such as
+`C:\Windows\System32` or `C:\Program Files\EEP\`.
+
+== System requirements
+
+* Windows 2000 and later
+* Windows XP/Vista/7/8/10/11
+* Windows Server 2003/2008 and later
+* x86-64 architecture
+* No additional dependencies required
+
+== Compatibility mode
+
+On Windows 10/11, if you encounter issues, try running in compatibility mode:
+
+. Right-click on `eep-windows-x64.exe`
+. Select "Properties"
+. Go to the "Compatibility" tab
+. Check "Run this program in compatibility mode for:"
+. Select "Windows XP (Service Pack 3)" or "Windows Vista"
+. Click "Apply" and "OK"
+
+== Git configuration
+
+This directory permits `.exe` file extensions to support Windows executables.
+The `.gitignore` file is configured to allow `eep-windows-x64.exe` to be committed to the
+repository.
+
+== License
+
+EEP is distributed as **Freeware** by Eurostep.
+
+== More information
+
+See the main repository README.adoc for complete documentation:
+https://github.com/expresslang/eep-releases

@@ -1,0 +1,112 @@
+= Eurostep EXPRESS Parser (EEP) - Linux binaries
+
+== Purpose
+
+This directory contains the Linux binary for the Eurostep EXPRESS Parser (EEP)
+version 1.4.45.
+
+== Available binaries
+
+`eep-linux-x64`:: Linux executable for x86-64 systems
+
+== Installation
+
+[source,bash]
+----
+# Make executable
+chmod +x eep-linux-x64
+
+# Install to system path
+sudo mv eep-linux-x64 /usr/local/bin/eep
+
+# Verify installation
+eep --help
+----
+
+=== Alternative installation locations
+
+You can install to different locations based on your preference:
+
+[source,bash]
+----
+# System-wide installation (requires sudo)
+sudo mv eep-linux-x64 /usr/local/bin/eep
+
+# User-specific installation (no sudo required)
+mkdir -p ~/.local/bin
+mv eep-linux-x64 ~/.local/bin/eep
+# Ensure ~/.local/bin is in your PATH
+
+# Custom directory installation
+mkdir -p ~/bin
+mv eep-linux-x64 ~/bin/eep
+# Add ~/bin to your PATH in ~/.bashrc or ~/.zshrc
+----
+
+== System requirements
+
+* Linux with glibc version 6 or later
+* x86-64 architecture
+* Most modern Linux distributions meet these requirements
+
+== Compatibility
+
+The EEP binary has been tested and works on:
+
+* Ubuntu/Debian-based distributions
+* RHEL/CentOS/Fedora-based distributions
+* Other modern Linux distributions with glibc 6+
+
+== Troubleshooting
+
+=== Missing libraries
+
+If you encounter missing library errors:
+
+[source,bash]
+----
+# Ubuntu/Debian
+sudo apt-get update
+sudo apt-get install libc6
+
+# RHEL/CentOS/Fedora
+sudo yum install glibc
+# or
+sudo dnf install glibc
+----
+
+=== Permission denied
+
+If you receive permission errors:
+
+[source,bash]
+----
+# Make the binary executable
+chmod +x eep-linux-x64
+
+# Verify it's executable
+ls -la eep-linux-x64
+----
+
+=== 32-bit compatibility
+
+On 64-bit systems, if you encounter architecture-related errors, you may need
+32-bit compatibility libraries:
+
+[source,bash]
+----
+# Ubuntu/Debian
+sudo apt-get install libc6:i386
+
+# RHEL/CentOS
+sudo yum install glibc.i686
+----
+
+== License
+
+EEP is distributed as **Freeware** by Eurostep.
+
+== More information
+
+See the main repository README.adoc for complete documentation:
+https://github.com/expresslang/eep-releases
