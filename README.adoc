@@ -95,7 +95,9 @@ Linux and macOS it is called `eep` (all lowercase).
 
 === Linux
 
-On x86 Linux systems, use the following commands to download and install:
+==== x86-64 systems
+
+On x86-64 Linux systems, use the following commands to download and install:
 
 [source,bash]
 ----
@@ -103,27 +105,43 @@ On x86 Linux systems, use the following commands to download and install:
 wget https://github.com/expresslang/eep-releases/raw/main/linux/eep-linux-x64
 
 # Make executable and install
-chmod +x eep
-sudo mv eep /usr/local/bin/
+chmod +x eep-linux-x64
+sudo mv eep-linux-x64 /usr/local/bin/eep
 
 # Verify installation
 eep --help
 ----
 
-On ARM Linux systems, the binary may not be compatible due to its x86
-architecture. You will need to install x86_64 compatibility libraries.
+==== ARM64 systems
 
-For Debian/Ubuntu systems, use the following commands to install necessary
-libraries:
+The `eep-linux-x64` binary is compiled for x86-64 architecture but can run on
+ARM64 (aarch64) Linux systems through **QEMU user-mode emulation**.
+
+QEMU provides transparent binary translation, allowing x86-64 binaries to
+execute on ARM64 systems with minimal setup:
 
 [source,bash]
 ----
-# On arm64/aarch64 systems (such as Docker on Apple Silicon), install x86_64
-# compatibility libraries.
-dpkg --add-architecture amd64
-apt-get update
-apt-get -y install binutils:amd64
+# Install QEMU user-mode emulation and multi-architecture support
+sudo apt-get update
+sudo apt-get install -y qemu-user-static binfmt-support
+
+# Enable x86-64 architecture and install runtime libraries
+sudo dpkg --add-architecture amd64
+sudo apt-get update
+sudo apt-get install -y libc6:amd64
+
+# Download and use the binary
+wget https://github.com/expresslang/eep-releases/raw/main/linux/eep-linux-x64
+chmod +x eep-linux-x64
+./eep-linux-x64 --help
 ----
+
+For detailed ARM64 compatibility instructions, including Docker setup and
+troubleshooting, see link:linux/README.adoc[linux/README.adoc].
+
+NOTE: QEMU emulation provides good compatibility with some performance overhead.
+The emulation is transparent and requires no code changes.
 
 
 === macOS
@@ -349,16 +367,10 @@ Original file specifications:
 
 === EXPRESS language resources
 
-* https://github.com/expresslang[EXPRESS Language Organization]
-* https://github.com/expresslang/eengine-releases[Express Engine (eengine)]
-  - Modern open-source EXPRESS parser
-* ISO 10303-11 standard documentation
-
-=== STEP and PLM resources
-
-* https://www.steptools.com/[STEP Tools, Inc.]
-* CAx Implementor Forum
-* STEP Application Protocol specifications
+* https://www.expresslang.org[EXPRESS Language Foundation]
+* https://github.com/expresslang[EXPRESS Language Foundation GitHub]
+* https://github.com/expresslang/eengine-releases[Express Engine (eengine) hosted by ELF]
+* ISO 10303-11
 
 == Contributing
 
@@ -372,15 +384,17 @@ Please open an issue or pull request to contribute.
 
 == Acknowledgments
 
-* Eurostep for developing and distributing Eep as freeware
-* The Internet Archive for preserving the original download page
-* The EXPRESS and STEP communities for continued support
+Thank you to https://www.eurostep.com[Eurostep] for developing and distributing
+Eep as freeware.
+
 
 == Copyright and license
 
 Copyright (C) 1999-2022 Eurostep Limited.
 
 Eep is distributed as **Freeware** by Eurostep.
+
+All others copyright (C) EXPRESS Language Foundation.
 
 The binaries in this repository are provided as-is for preservation and
 continued use by the EXPRESS language community. No warranty is provided.

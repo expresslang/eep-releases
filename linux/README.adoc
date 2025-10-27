@@ -88,17 +88,110 @@ chmod +x eep-linux-x64
 ls -la eep-linux-x64
 ----
 
-=== ARM64 Docker containers (macOS)
+=== ARM64 Linux compatibility
 
-When running in ARM64 Docker containers on macOS (Apple Silicon), you will need
-x86_64 compatibility libraries since this is an x86-64 binary:
+The `eep-linux-x64` binary is compiled for x86-64 architecture. However, it can
+run on ARM64 (aarch64) Linux systems through QEMU user-mode emulation, which
+provides transparent binary translation.
+
+==== Overview
+
+Running x86-64 binaries on ARM64 Linux requires:
+
+1. **QEMU user-mode emulation** - Enables transparent execution of x86-64 binaries
+2. **Multi-architecture support** - Allows installation of x86-64 libraries alongside ARM64
+3. **x86-64 runtime libraries** - Required dependencies for the binary
+
+==== Ubuntu/Debian ARM64 systems
+
+On Ubuntu or Debian ARM64 systems, follow these steps:
 
 [source,bash]
 ----
-# On arm64/aarch64 systems (such as Docker on Apple Silicon)
+# 1. Install QEMU user-mode emulation
+sudo apt-get update
+sudo apt-get install -y qemu-user-static binfmt-support
+
+# 2. Enable multi-architecture support
+sudo dpkg --add-architecture amd64
+
+# 3. Update package lists
+sudo apt-get update
+
+# 4. Install x86-64 runtime libraries
+sudo apt-get install -y libc6:amd64
+
+# 5. Make the binary executable
+chmod +x eep-linux-x64
+
+# 6. Test the binary
+./eep-linux-x64 --help
+----
+
+Once configured, the binary will run transparently through QEMU emulation.
+
+==== Docker containers on ARM64
+
+For Docker containers running on ARM64 hosts (including Apple Silicon Macs),
+use the same approach:
+
+[source,dockerfile]
+----
+FROM ubuntu:24.04
+
+# Install QEMU and multi-arch support
+RUN apt-get update && \
+    apt-get install -y qemu-user-static binfmt-support && \
+    dpkg --add-architecture amd64 && \
+    apt-get update && \
+    apt-get install -y libc6:amd64
+
+# Copy and use the binary
+COPY eep-linux-x64 /usr/local/bin/eep
+RUN chmod +x /usr/local/bin/eep
+----
+
+Or in a running container:
+
+[source,bash]
+----
+# Inside an ARM64 container
+apt-get update
+apt-get install -y qemu-user-static binfmt-support
 dpkg --add-architecture amd64
 apt-get update
-apt-get -y install binutils:amd64
+apt-get install -y libc6:amd64
+
+# Now the x86-64 binary will work
+./eep-linux-x64 --help
+----
+
+==== Performance considerations
+
+* **QEMU emulation** provides good compatibility but with some performance overhead
+* For production use on ARM64, consider using a native ARM64 binary if available
+* The emulation is transparent - no code changes needed
+* Performance is typically sufficient for command-line tools like EEP
+
+==== Verification
+
+To verify the setup is working:
+
+[source,bash]
+----
+# Check QEMU is installed
+which qemu-x86_64-static
+
+# Check binfmt support
+ls -la /proc/sys/fs/binfmt_misc/
+
+# Verify the binary architecture
+file eep-linux-x64
+# Should show: ELF 64-bit LSB executable, x86-64
+
+# Test execution
+./eep-linux-x64 --help
+# Should display help without errors
 ----
 
 === 32-bit compatibility
