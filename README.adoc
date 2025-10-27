@@ -28,7 +28,7 @@ for the EXPRESS language community.
 
 This repository contains precompiled binaries of Eep for multiple platforms:
 
-`windows/eep-windows-x64.exe`:: Windows executable (x86-64)
+`windows/eep-windows-x86.exe`:: Windows executable (x86 32-bit)
 
 `linux/eep-linux-x64`:: Linux executable (x86-64)
 
@@ -194,7 +194,7 @@ Eep.exe --help
 ----
 
 Or download directly from:
-https://github.com/expresslang/eep-releases/raw/main/windows/eep-windows-x64.exe
+https://github.com/expresslang/eep-releases/raw/main/windows/eep-windows-x86.exe
 
 NOTE: You may rename the downloaded file to `Eep.exe` if you prefer the traditional Windows naming convention.
 

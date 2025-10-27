@@ -7,17 +7,17 @@ This directory contains the Windows binary for the Eurostep EXPRESS Parser
 
 == Available binaries
 
-`eep-windows-x64.exe`:: Windows executable for x86-64 systems
+`eep-windows-x86.exe`:: Windows executable for x86 32-bit systems
 
 == Installation
 
 [source,powershell]
 ----
-# Download eep-windows-x64.exe to a directory of your choice
+# Download eep-windows-x86.exe to a directory of your choice
 # Add the directory to your system PATH
 
 # Verify installation
-eep-windows-x64.exe --help
+eep-windows-x86.exe --help
 ----
 
 NOTE: You may rename the downloaded file to `Eep.exe` if you prefer the traditional Windows naming convention.
@@ -30,10 +30,10 @@ NOTE: You may rename the downloaded file to `Eep.exe` if you prefer the traditio
 . Click "Environment Variables"
 . Under "System variables", find and select "Path"
 . Click "Edit"
-. Click "New" and add the directory containing `eep-windows-x64.exe`
+. Click "New" and add the directory containing `eep-windows-x86.exe`
 . Click "OK" to save
 
-Alternatively, place `eep-windows-x64.exe` in an existing PATH directory such as
+Alternatively, place `eep-windows-x86.exe` in an existing PATH directory such as
 `C:\Windows\System32` or `C:\Program Files\EEP\`.
 
 == System requirements
@@ -41,14 +41,14 @@ Alternatively, place `eep-windows-x64.exe` in an existing PATH directory such as
 * Windows 2000 and later
 * Windows XP/Vista/7/8/10/11
 * Windows Server 2003/2008 and later
-* x86-64 architecture
+* x86 32-bit architecture (compatible with both 32-bit and 64-bit Windows)
 * No additional dependencies required
 
 == Compatibility mode
 
 On Windows 10/11, if you encounter issues, try running in compatibility mode:
 
-. Right-click on `eep-windows-x64.exe`
+. Right-click on `eep-windows-x86.exe`
 . Select "Properties"
 . Go to the "Compatibility" tab
 . Check "Run this program in compatibility mode for:"
@@ -58,7 +58,7 @@ On Windows 10/11, if you encounter issues, try running in compatibility mode:
 == Git configuration
 
 This directory permits `.exe` file extensions to support Windows executables.
-The `.gitignore` file is configured to allow `eep-windows-x64.exe` to be committed to the
+The `.gitignore` file is configured to allow `eep-windows-x86.exe` to be committed to the
 repository.
 
 == License
