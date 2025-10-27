@@ -42,9 +42,41 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install x86-64 compatibility (binary is x86-64)
+      - name: Install x86-64 emulation (binary is x86-64)
         run: |
+          # Install QEMU user-mode emulation first
+          sudo apt-get update
+          sudo apt-get install -y qemu-user-static binfmt-support
+
+          # Backup and disable ALL existing source configurations
+          sudo mv /etc/apt/sources.list /etc/apt/sources.list.bak
+          # Ubuntu 24.04 uses DEB822 format sources that conflict with our arch-specific setup
+          if [ -f /etc/apt/sources.list.d/ubuntu.sources ]; then
+            sudo mv /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list.d/ubuntu.sources.bak
+          fi
+
+          # Create new sources.list with ARM64 packages only
+          sudo tee /etc/apt/sources.list > /dev/null << 'EOF'
+          # ARM64 packages from ports.ubuntu.com
+          deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports noble main restricted universe multiverse
+          deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports noble-updates main restricted universe multiverse
+          deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports noble-backports main restricted universe multiverse
+          deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports noble-security main restricted universe multiverse
+          EOF
+
+          # Add amd64 architecture
           sudo dpkg --add-architecture amd64
+
+          # Configure amd64 sources (amd64 packages are on archive.ubuntu.com)
+          sudo tee /etc/apt/sources.list.d/amd64.list > /dev/null << 'EOF'
+          # AMD64 packages from archive.ubuntu.com
+          deb [arch=amd64] http://archive.ubuntu.com/ubuntu noble main restricted universe multiverse
+          deb [arch=amd64] http://archive.ubuntu.com/ubuntu noble-updates main restricted universe multiverse
+          deb [arch=amd64] http://archive.ubuntu.com/ubuntu noble-backports main restricted universe multiverse
+          deb [arch=amd64] http://security.ubuntu.com/ubuntu noble-security main restricted universe multiverse
+          EOF
+
+          # Update package lists and install amd64 libraries
           sudo apt-get update
           sudo apt-get install -y libc6:amd64
 
