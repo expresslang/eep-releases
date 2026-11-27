@@ -87,26 +87,6 @@ jobs:
           ./linux/eep-linux-x64 -h || echo "⚠️  x86-64 binary requires emulation on ARM64"
           echo "✅ Linux ARM64 compatibility check completed"
 
-  test-macos-13-intel:
-    name: Test macOS 13 (Intel)
-    runs-on: macos-13
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Test eep-macos-10.11-x64 binary
-        run: |
-          chmod +x macos/eep-macos-10.11-x64
-          ./macos/eep-macos-10.11-x64 -h || true
-          echo "✅ macOS 10.11-x64 binary executed on macos-13"
-
-      - name: Test eep-macos-12-x64 binary
-        run: |
-          chmod +x macos/eep-macos-12-x64
-          ./macos/eep-macos-12-x64 -h || true
-          echo "✅ macOS 12-x64 binary executed on macos-13"
-
   test-macos-15-intel:
     name: Test macOS 15 (Intel)
     runs-on: macos-15-intel
@@ -126,26 +106,6 @@ jobs:
           chmod +x macos/eep-macos-12-x64
           ./macos/eep-macos-12-x64 -h || true
           echo "✅ macOS 12-x64 binary executed on macos-15-intel"
-
-  test-macos-14-arm:
-    name: Test macOS 14 (Apple Silicon)
-    runs-on: macos-14
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Test eep-macos-10.11-x64 binary (Rosetta 2)
-        run: |
-          chmod +x macos/eep-macos-10.11-x64
-          arch -x86_64 ./macos/eep-macos-10.11-x64 -h || true
-          echo "✅ macOS 10.11-x64 binary executed via Rosetta 2 on macos-14"
-
-      - name: Test eep-macos-12-x64 binary (Rosetta 2)
-        run: |
-          chmod +x macos/eep-macos-12-x64
-          arch -x86_64 ./macos/eep-macos-12-x64 -h || true
-          echo "✅ macOS 12-x64 binary executed via Rosetta 2 on macos-14"
 
   test-macos-15-arm:
     name: Test macOS 15 (Apple Silicon)
@@ -220,9 +180,7 @@ jobs:
     needs:
       - test-linux-x64
       - test-linux-arm64
-      - test-macos-13-intel
       - test-macos-15-intel
-      - test-macos-14-arm
       - test-macos-15-arm
       - test-macos-latest-arm
       - test-windows-x64
@@ -239,9 +197,7 @@ jobs:
           echo "|----------|--------|" >> $GITHUB_STEP_SUMMARY
           echo "| Linux x86-64 | ${{ needs.test-linux-x64.result }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Linux ARM64 | ${{ needs.test-linux-arm64.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| macOS 13 Intel | ${{ needs.test-macos-13-intel.result }} |" >> $GITHUB_STEP_SUMMARY
           echo "| macOS 15 Intel | ${{ needs.test-macos-15-intel.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| macOS 14 ARM | ${{ needs.test-macos-14-arm.result }} |" >> $GITHUB_STEP_SUMMARY
           echo "| macOS 15 ARM | ${{ needs.test-macos-15-arm.result }} |" >> $GITHUB_STEP_SUMMARY
           echo "| macOS Latest ARM | ${{ needs.test-macos-latest-arm.result }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Windows x86-64 | ${{ needs.test-windows-x64.result }} |" >> $GITHUB_STEP_SUMMARY
